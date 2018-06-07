@@ -14,60 +14,60 @@ using RentApp.Persistance.UnitOfWork;
 
 namespace RentApp.Controllers
 {
-    public class ServicesController : ApiController
+    public class TypeOfVehiclesController : ApiController
     {
         private readonly IUnitOfWork unitOfWork;
 
-        public ServicesController()
+        public TypeOfVehiclesController()
         {
 
         }
 
-        public ServicesController(IUnitOfWork unitOfWork)
+        public TypeOfVehiclesController(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<Service> GetServices()
+        public IEnumerable<TypeOfVehicle> GetServices()
         {
-            return unitOfWork.Services.GetAll();
+            return unitOfWork.TypeOfVehicles.GetAll();
         }
 
-        // GET: api/Services/5
-        [ResponseType(typeof(Service))]
-        public IHttpActionResult GetService(int id)
+        // GET: api/TypeOfVehicles/5
+        [ResponseType(typeof(TypeOfVehicle))]
+        public IHttpActionResult GetTypeOfVehicle(int id)
         {
-            Service service = unitOfWork.Services.Get(id);
-            if (service == null)
+            TypeOfVehicle typeOfVehicle = unitOfWork.TypeOfVehicles.Get(id);
+            if (typeOfVehicle == null)
             {
                 return NotFound();
             }
 
-            return Ok(service);
+            return Ok(typeOfVehicle);
         }
 
-        // PUT: api/Services/5
+        // PUT: api/TypeOfVehicles/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutService(int id, Service service)
+        public IHttpActionResult PutTypeOfVehicle(int id, TypeOfVehicle typeOfVehicle)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != service.Id)
+            if (id != typeOfVehicle.Id)
             {
                 return BadRequest();
             }
 
             try
             {
-                unitOfWork.Services.Update(service);
+                unitOfWork.TypeOfVehicles.Update(typeOfVehicle);
                 unitOfWork.Complete();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ServiceExists(id))
+                if (!TypeOfVehicleExists(id))
                 {
                     return NotFound();
                 }
@@ -80,35 +80,35 @@ namespace RentApp.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Services
-        [ResponseType(typeof(Service))]
-        public IHttpActionResult PostService(Service service)
+        // POST: api/TypeOfVehicles
+        [ResponseType(typeof(TypeOfVehicle))]
+        public IHttpActionResult PostTypeOfVehicle(TypeOfVehicle typeOfVehicle)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            unitOfWork.Services.Add(service);
+            unitOfWork.TypeOfVehicles.Add(typeOfVehicle);
             unitOfWork.Complete();
 
-            return CreatedAtRoute("DefaultApi", new { id = service.Id }, service);
+            return CreatedAtRoute("DefaultApi", new { id = typeOfVehicle.Id }, typeOfVehicle);
         }
 
-        // DELETE: api/Services/5
-        [ResponseType(typeof(Service))]
-        public IHttpActionResult DeleteService(int id)
+        // DELETE: api/TypeOfVehicles/5
+        [ResponseType(typeof(TypeOfVehicle))]
+        public IHttpActionResult DeleteTypeOfVehicle(int id)
         {
-            Service service = unitOfWork.Services.Get(id);
-            if (service == null)
+            TypeOfVehicle typeOfVehicle = unitOfWork.TypeOfVehicles.Get(id);
+            if (typeOfVehicle == null)
             {
                 return NotFound();
             }
 
-            unitOfWork.Services.Remove(service);
+            unitOfWork.TypeOfVehicles.Remove(typeOfVehicle);
             unitOfWork.Complete();
 
-            return Ok(service);
+            return Ok(typeOfVehicle);
         }
 
         protected override void Dispose(bool disposing)
@@ -120,9 +120,9 @@ namespace RentApp.Controllers
             base.Dispose(disposing);
         }
 
-        private bool ServiceExists(int id)
+        private bool TypeOfVehicleExists(int id)
         {
-            return unitOfWork.Services.Get(id) != null;
+            return unitOfWork.TypeOfVehicles.Get(id) != null;
         }
     }
 }

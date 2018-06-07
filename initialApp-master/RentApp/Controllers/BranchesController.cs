@@ -14,60 +14,60 @@ using RentApp.Persistance.UnitOfWork;
 
 namespace RentApp.Controllers
 {
-    public class ServicesController : ApiController
+    public class BranchesController : ApiController
     {
         private readonly IUnitOfWork unitOfWork;
 
-        public ServicesController()
+        public BranchesController()
         {
 
         }
 
-        public ServicesController(IUnitOfWork unitOfWork)
+        public BranchesController(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<Service> GetServices()
+        public IEnumerable<Branch> GetBranches()
         {
-            return unitOfWork.Services.GetAll();
+            return unitOfWork.Branches.GetAll();
         }
 
-        // GET: api/Services/5
-        [ResponseType(typeof(Service))]
-        public IHttpActionResult GetService(int id)
+        // GET: api/Branches/5
+        [ResponseType(typeof(Branch))]
+        public IHttpActionResult GetBranch(int id)
         {
-            Service service = unitOfWork.Services.Get(id);
-            if (service == null)
+            Branch branch = unitOfWork.Branches.Get(id);
+            if (branch == null)
             {
                 return NotFound();
             }
 
-            return Ok(service);
+            return Ok(branch);
         }
 
-        // PUT: api/Services/5
+        // PUT: api/Branches/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutService(int id, Service service)
+        public IHttpActionResult PutBranch(int id, Branch branch)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != service.Id)
+            if (id != branch.Id)
             {
                 return BadRequest();
             }
 
             try
             {
-                unitOfWork.Services.Update(service);
+                unitOfWork.Branches.Update(branch);
                 unitOfWork.Complete();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ServiceExists(id))
+                if (!BranchExists(id))
                 {
                     return NotFound();
                 }
@@ -80,35 +80,35 @@ namespace RentApp.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Services
-        [ResponseType(typeof(Service))]
-        public IHttpActionResult PostService(Service service)
+        // POST: api/Branches
+        [ResponseType(typeof(Branch))]
+        public IHttpActionResult PostBranch(Branch branch)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            unitOfWork.Services.Add(service);
+            unitOfWork.Branches.Add(branch);
             unitOfWork.Complete();
 
-            return CreatedAtRoute("DefaultApi", new { id = service.Id }, service);
+            return CreatedAtRoute("DefaultApi", new { id = branch.Id }, branch);
         }
 
-        // DELETE: api/Services/5
-        [ResponseType(typeof(Service))]
-        public IHttpActionResult DeleteService(int id)
+        // DELETE: api/Branches/5
+        [ResponseType(typeof(Branch))]
+        public IHttpActionResult DeleteBranch(int id)
         {
-            Service service = unitOfWork.Services.Get(id);
-            if (service == null)
+            Branch branch = unitOfWork.Branches.Get(id);
+            if (branch == null)
             {
                 return NotFound();
             }
 
-            unitOfWork.Services.Remove(service);
+            unitOfWork.Branches.Remove(branch);
             unitOfWork.Complete();
 
-            return Ok(service);
+            return Ok(branch);
         }
 
         protected override void Dispose(bool disposing)
@@ -120,9 +120,9 @@ namespace RentApp.Controllers
             base.Dispose(disposing);
         }
 
-        private bool ServiceExists(int id)
+        private bool BranchExists(int id)
         {
-            return unitOfWork.Services.Get(id) != null;
+            return unitOfWork.Branches.Get(id) != null;
         }
     }
 }

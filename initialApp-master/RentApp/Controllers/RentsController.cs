@@ -14,60 +14,60 @@ using RentApp.Persistance.UnitOfWork;
 
 namespace RentApp.Controllers
 {
-    public class ServicesController : ApiController
+    public class RentsController : ApiController
     {
         private readonly IUnitOfWork unitOfWork;
 
-        public ServicesController()
+        public RentsController()
         {
 
         }
 
-        public ServicesController(IUnitOfWork unitOfWork)
+        public RentsController(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<Service> GetServices()
+        public IEnumerable<Rent> GetServices()
         {
-            return unitOfWork.Services.GetAll();
+            return unitOfWork.Rents.GetAll();
         }
 
-        // GET: api/Services/5
-        [ResponseType(typeof(Service))]
-        public IHttpActionResult GetService(int id)
+        // GET: api/Rents/5
+        [ResponseType(typeof(Rent))]
+        public IHttpActionResult GetRent(int id)
         {
-            Service service = unitOfWork.Services.Get(id);
-            if (service == null)
+            Rent rent = unitOfWork.Rents.Get(id);
+            if (rent == null)
             {
                 return NotFound();
             }
 
-            return Ok(service);
+            return Ok(rent);
         }
 
-        // PUT: api/Services/5
+        // PUT: api/Rents/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutService(int id, Service service)
+        public IHttpActionResult PutRent(int id, Rent rent)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != service.Id)
+            if (id != rent.Id)
             {
                 return BadRequest();
             }
 
             try
             {
-                unitOfWork.Services.Update(service);
+                unitOfWork.Rents.Update(rent);
                 unitOfWork.Complete();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ServiceExists(id))
+                if (!RentExists(id))
                 {
                     return NotFound();
                 }
@@ -80,35 +80,35 @@ namespace RentApp.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Services
-        [ResponseType(typeof(Service))]
-        public IHttpActionResult PostService(Service service)
+        // POST: api/Rents
+        [ResponseType(typeof(Rent))]
+        public IHttpActionResult PostRent(Rent rent)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            unitOfWork.Services.Add(service);
+            unitOfWork.Rents.Add(rent);
             unitOfWork.Complete();
 
-            return CreatedAtRoute("DefaultApi", new { id = service.Id }, service);
+            return CreatedAtRoute("DefaultApi", new { id = rent.Id }, rent);
         }
 
-        // DELETE: api/Services/5
-        [ResponseType(typeof(Service))]
-        public IHttpActionResult DeleteService(int id)
+        // DELETE: api/Rents/5
+        [ResponseType(typeof(Rent))]
+        public IHttpActionResult DeleteRent(int id)
         {
-            Service service = unitOfWork.Services.Get(id);
-            if (service == null)
+            Rent rent = unitOfWork.Rents.Get(id);
+            if (rent == null)
             {
                 return NotFound();
             }
 
-            unitOfWork.Services.Remove(service);
+            unitOfWork.Rents.Remove(rent);
             unitOfWork.Complete();
 
-            return Ok(service);
+            return Ok(rent);
         }
 
         protected override void Dispose(bool disposing)
@@ -120,9 +120,9 @@ namespace RentApp.Controllers
             base.Dispose(disposing);
         }
 
-        private bool ServiceExists(int id)
+        private bool RentExists(int id)
         {
-            return unitOfWork.Services.Get(id) != null;
+            return unitOfWork.Rents.Get(id) != null;
         }
     }
 }

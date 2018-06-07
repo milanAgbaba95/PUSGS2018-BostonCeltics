@@ -14,60 +14,60 @@ using RentApp.Persistance.UnitOfWork;
 
 namespace RentApp.Controllers
 {
-    public class ServicesController : ApiController
+    public class AppUsersController : ApiController
     {
         private readonly IUnitOfWork unitOfWork;
 
-        public ServicesController()
+        public AppUsersController()
         {
 
         }
 
-        public ServicesController(IUnitOfWork unitOfWork)
+        public AppUsersController(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<Service> GetServices()
+        public IEnumerable<AppUser> GetAppUsers()
         {
-            return unitOfWork.Services.GetAll();
+            return unitOfWork.AppUsers.GetAll();
         }
 
-        // GET: api/Services/5
-        [ResponseType(typeof(Service))]
-        public IHttpActionResult GetService(int id)
+        // GET: api/AppUsers/5
+        [ResponseType(typeof(AppUser))]
+        public IHttpActionResult GetAppUser(int id)
         {
-            Service service = unitOfWork.Services.Get(id);
-            if (service == null)
+            AppUser appUser = unitOfWork.AppUsers.Get(id);
+            if (appUser == null)
             {
                 return NotFound();
             }
 
-            return Ok(service);
+            return Ok(appUser);
         }
 
-        // PUT: api/Services/5
+        // PUT: api/AppUsers/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutService(int id, Service service)
+        public IHttpActionResult PutAppUser(int id, AppUser appUser)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != service.Id)
+            if (id != appUser.Id)
             {
                 return BadRequest();
             }
 
             try
             {
-                unitOfWork.Services.Update(service);
+                unitOfWork.AppUsers.Update(appUser);
                 unitOfWork.Complete();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ServiceExists(id))
+                if (!AppUserExists(id))
                 {
                     return NotFound();
                 }
@@ -80,35 +80,35 @@ namespace RentApp.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Services
-        [ResponseType(typeof(Service))]
-        public IHttpActionResult PostService(Service service)
+        // POST: api/AppUsers
+        [ResponseType(typeof(AppUser))]
+        public IHttpActionResult PostAppUser(AppUser appUser)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            unitOfWork.Services.Add(service);
+            unitOfWork.AppUsers.Add(appUser);
             unitOfWork.Complete();
 
-            return CreatedAtRoute("DefaultApi", new { id = service.Id }, service);
+            return CreatedAtRoute("DefaultApi", new { id = appUser.Id }, appUser);
         }
 
-        // DELETE: api/Services/5
-        [ResponseType(typeof(Service))]
-        public IHttpActionResult DeleteService(int id)
+        // DELETE: api/AppUsers/5
+        [ResponseType(typeof(AppUser))]
+        public IHttpActionResult DeleteAppUser(int id)
         {
-            Service service = unitOfWork.Services.Get(id);
-            if (service == null)
+            AppUser appUser = unitOfWork.AppUsers.Get(id);
+            if (appUser == null)
             {
                 return NotFound();
             }
 
-            unitOfWork.Services.Remove(service);
+            unitOfWork.AppUsers.Remove(appUser);
             unitOfWork.Complete();
 
-            return Ok(service);
+            return Ok(appUser);
         }
 
         protected override void Dispose(bool disposing)
@@ -120,9 +120,9 @@ namespace RentApp.Controllers
             base.Dispose(disposing);
         }
 
-        private bool ServiceExists(int id)
+        private bool AppUserExists(int id)
         {
-            return unitOfWork.Services.Get(id) != null;
+            return unitOfWork.AppUsers.Get(id) != null;
         }
     }
 }
